@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 5000;
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'http://localhost:4173',
+  'https://mboa-command.vercel.app',
+  'https://frontend-sage-zeta-77.vercel.app',
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 

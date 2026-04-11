@@ -128,7 +128,6 @@ export default function RestaurantPage() {
         {/* Promo Banner */}
         {restaurant.promo_text && (
           <div className="bg-primary/10 border border-primary/25 rounded-2xl p-3 mt-4 flex items-center gap-2">
-            <span className="text-xl">🎉</span>
             <p className="text-primary text-sm font-bold">{restaurant.promo_text}</p>
           </div>
         )}

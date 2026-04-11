@@ -16,11 +16,10 @@ import TrackingPage from './pages/TrackingPage';
 import ProfilePage from './pages/ProfilePage';
 import OTPPage from './pages/OTPPage';
 
-const SHOW_NAV = ['/home', '/explore', '/cart', '/profile'];
-
 function AppLayout() {
   const path = window.location.pathname;
-  const showNav = SHOW_NAV.some(p => path.startsWith(p));
+  // BottomNav handles its own visibility logic internally
+  const showNav = !['/login', '/register', '/onboarding', '/otp', '/'].includes(path) && !path.startsWith('/tracking');
 
   return (
     <div className="max-w-[430px] mx-auto min-h-screen bg-dark relative overflow-hidden md:shadow-[0_0_80px_rgba(0,0,0,0.9)] md:border-x md:border-white/5">

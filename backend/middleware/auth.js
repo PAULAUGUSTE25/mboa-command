@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'mboaeats_secret_2024';
+const JWT_SECRET = process.env.JWT_SECRET || 'mboa_command_secret_2024';
 
 function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Testing API</h1>
+    <div id="results"></div>
+    <script>
+        const results = document.getElementById('results');
+        
+        async function testAPI() {
+            try {
+                // Test health
+                const health = await fetch('https://mboa-command.vercel.app/api/health');
+                const healthData = await health.json();
+                results.innerHTML += `<p>✅ Health: ${JSON.stringify(healthData)}</p>`;
+                
+                // Test categories
+                const cats = await fetch('https://mboa-command.vercel.app/api/categories');
+                const catsData = await cats.json();
+                results.innerHTML += `<p>✅ Categories: ${catsData.data.length} found</p>`;
+                
+                // Test restaurants
+                const rests = await fetch('https://mboa-command.vercel.app/api/restaurants');
+                const restsData = await rests.json();
+                results.innerHTML += `<p>✅ Restaurants: ${restsData.data.length} found</p>`;
+                
+                // Test login
+                const login = await fetch('https://mboa-command.vercel.app/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'paul@mboaeats.cm', password: 'password123' })
+                });
+                const loginData = await login.json();
+                results.innerHTML += `<p>✅ Login: ${loginData.user ? loginData.user.name : 'FAILED'}</p>`;
+                
+            } catch(e) {
+                results.innerHTML += `<p>❌ Error: ${e.message}</p>`;
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

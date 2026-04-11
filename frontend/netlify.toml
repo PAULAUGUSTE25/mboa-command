@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA redirect — all routes go to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Proxy API calls to backend on Render (replace URL after deploying backend)
+[[redirects]]
+  from = "/api/*"
+  to = "https://mboa-command-api.onrender.com/api/:splat"
+  status = 200
+  force = true

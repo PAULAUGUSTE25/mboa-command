@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #3fec29;
+  --dark: #0B0C10;
+  --dark-card: #161920;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: #0B0C10;
+  color: rgba(255, 255, 255, 0.753);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #161920;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A2D3A;
+  border-radius: 2px;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.app-container {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  background: #0B0C10;
+  box-shadow: 0 0 60px rgba(0,0,0,0.8);
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 430px;
+    box-shadow: 0 0 80px rgba(168, 255, 62, 0.05), 0 0 40px rgba(0,0,0,0.9);
+  }
+  body {
+    background: #050608;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, rgba(168, 255, 62, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(168, 255, 62, 0.02) 0%, transparent 50%);
+  }
+}
+
+.gradient-primary {
+  background: linear-gradient(135deg, #3fec29 0%, #3fec29 100%);
+}
+
+.gradient-dark {
+  background: linear-gradient(180deg, #0B0C10 0%, #161920 100%);
+}
+
+.card-glow {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+.primary-glow {
+  box-shadow: 0 0 20px rgba(168, 255, 62, 0.3);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #3fec29, #3fec29);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bottom-nav-blur {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #161920 25%, #2A2D3A 50%, #161920 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+.page-enter {
+  animation: fadeSlideUp 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Float animation for decorative elements ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ── Pulse ring for notification badge ── */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0   rgba(168, 255, 62, 0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(168, 255, 62, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(168, 255, 62, 0); }
+}
+
+.pulse-glow {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* ── Bounce in for modals / toasts ── */
+@keyframes bounceIn {
+  0%   { opacity: 0; transform: scale(0.7) translateY(20px); }
+  60%  { opacity: 1; transform: scale(1.05) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ── Ken Burns for full-screen food images ── */
+@keyframes kenBurns {
+  0%   { transform: scale(1)    translateX(0)   translateY(0); }
+  100% { transform: scale(1.12) translateX(-2%) translateY(-1%); }
+}
+
+/* ── Slide up from bottom ── */
+@keyframes slideUpFull {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.slide-up-full {
+  animation: slideUpFull 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* ── Gradient text helper ── */
+.text-gradient-primary {
+  background: linear-gradient(135deg, #3fec29 0%, #3fec29 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Input focus ring ── */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
+/* ── Tap highlight removal on mobile ── */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}

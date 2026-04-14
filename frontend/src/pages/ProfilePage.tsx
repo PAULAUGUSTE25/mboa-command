@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { User, MapPin, Phone, Mail, Settings, Heart, Package, LogOut, ChevronRight, Edit3, Shield, TrendingDown, Star, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { staggerContainer, fadeSlideUp, scalePop } from '../components/PageTransition';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const handleLogout = () => {
@@ -164,6 +167,14 @@ export default function ProfilePage() {
             );
           })}
         </motion.div>
+
+        {/* Language Switcher */}
+        <div className="flex flex-col gap-3">
+          <p className="text-[#6B7280] text-xs font-semibold uppercase tracking-wider px-1">
+            {t('profile.language')}
+          </p>
+          <LanguageSwitcher />
+        </div>
 
         {/* Logout */}
         {!showLogoutConfirm ? (

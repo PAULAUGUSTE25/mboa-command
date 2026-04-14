@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, Clock, Bike, MapPin, Plus, Minus, Heart, Share2, Flame } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { restaurantsAPI } from '../lib/api';
 import { useCart } from '../context/CartContext';
 
@@ -20,6 +21,7 @@ interface Restaurant {
 export default function RestaurantPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { addItem, getItemQuantity, itemCount, total } = useCart();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +34,7 @@ export default function RestaurantPage() {
       setRestaurant(res.data);
       if (res.data.menu?.length > 0) setActiveTab(res.data.menu[0].id);
     }).catch(() => {
-      toast.error('Restaurant non trouvé');
+      toast.error(t('restaurant.notFound'));
       navigate('/home');
     }).finally(() => setLoading(false));
   }, [id, navigate]);
@@ -85,7 +87,7 @@ export default function RestaurantPage() {
               ? 'bg-primary text-black shadow-[0_2px_12px_rgba(168,255,62,0.4)]'
               : 'bg-[#2A2D3A] text-[#9CA3AF]'
           }`}>
-            {restaurant.is_open ? '● Ouvert' : '● Fermé'}
+            {restaurant.is_open ? `● ${t('restaurant.open')}` : `● ${t('restaurant.closed')}`}
           </span>
         </div>
       </div>
@@ -143,7 +145,7 @@ export default function RestaurantPage() {
                   ? 'bg-primary text-black shadow-[0_2px_10px_rgba(168,255,62,0.35)]'
                   : 'bg-[#161920] text-[#9CA3AF] border border-[#2A2D3A]'
               }`}>
-              Tout
+              {t('restaurant.all')}
             </button>
             {restaurant.menu.map(cat => (
               <button key={cat.id} onClick={() => setActiveTab(cat.id)}
@@ -200,7 +202,7 @@ export default function RestaurantPage() {
                     )}
                     <button
                       onClick={() => {
-                        if (!restaurant.is_open) { toast.error('Ce restaurant est fermé'); return; }
+                        if (!restaurant.is_open) { toast.error(t('restaurant.closed')); return; }
                         addItem({
                           id: item.id,
                           name: item.name,
@@ -228,7 +230,7 @@ export default function RestaurantPage() {
           <button onClick={() => navigate('/cart')}
             className="w-full bg-primary text-black font-extrabold py-4 rounded-2xl flex items-center justify-between px-5 shadow-[0_8px_32px_rgba(168,255,62,0.45)] active:scale-[0.98] transition-all">
             <span className="bg-black/20 text-black text-xs font-black w-7 h-7 rounded-xl flex items-center justify-center">{itemCount}</span>
-            <span className="text-base">Voir mon panier</span>
+            <span className="text-base">{t('restaurant.viewCart')}</span>
             <span className="font-black text-base">{total.toLocaleString()} F</span>
           </button>
         </div>

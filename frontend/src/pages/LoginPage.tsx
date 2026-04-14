@@ -2,19 +2,22 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, ArrowLeft, ChevronRight, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { authAPI } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { t } = useTranslation();
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.email || !form.password) { toast.error('Remplissez tous les champs'); return; }
+    if (!form.email || !form.password) { toast.error(t('auth.emailRequired')); return; }
     setLoading(true);
     try {
       const res = await authAPI.login(form.email, form.password);
@@ -34,11 +37,11 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await authAPI.sendOTP(form.email);
-      toast.success('Code OTP envoyé!');
+      toast.success(t('auth.otpSent'));
       navigate('/otp', { state: { email: form.email } });
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: string } } };
-      toast.error(error.response?.data?.error || 'Erreur d\'envoi du code');
+      toast.error(error.response?.data?.error || t('auth.loginError'));
     } finally {
       setLoading(false);
     }
@@ -49,10 +52,10 @@ export default function LoginPage() {
     try {
       const res = await authAPI.login('paul@mboaeats.cm', 'password123');
       login(res.data.token, res.data.user);
-      toast.success('Connexion démo réussie!');
+      toast.success(t('auth.loginSuccess'));
       navigate('/home');
     } catch {
-      toast.error('Serveur non disponible. Démarrez le backend.');
+      toast.error(t('auth.serverError'));
     } finally {
       setLoading(false);
     }
@@ -105,10 +108,10 @@ export default function LoginPage() {
         {/* Title */}
         <div className="mb-8">
           <h1 className="text-white text-[28px] font-extrabold leading-tight tracking-tight">
-            Bon retour !
+            {t('auth.loginTitle')}
           </h1>
           <p className="text-text-sub mt-1.5 text-base">
-            Connectez-vous pour commander
+            {t('auth.loginSubtitle')}
           </p>
         </div>
 
@@ -117,11 +120,11 @@ export default function LoginPage() {
           {/* Email */}
           <div className="space-y-2">
             <label className="text-white/80 text-sm font-semibold tracking-wide uppercase">
-              Adresse email
+              {t('auth.emailLabel')}
             </label>
             <input
               type="email"
-              placeholder="votre@email.com"
+              placeholder={t('auth.emailPlaceholder')}
               value={form.email}
               onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
               className="w-full bg-[#161920] border-2 border-[#2A2D3A] rounded-2xl px-5 py-4 text-white text-base placeholder:text-[#4B5060] focus:outline-none focus:border-primary transition-all duration-200"
@@ -133,16 +136,16 @@ export default function LoginPage() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-white/80 text-sm font-semibold tracking-wide uppercase">
-                Mot de passe
+                {t('auth.passwordLabel')}
               </label>
               <button type="button" className="text-primary text-sm font-semibold">
-                Oublié ?
+                {t('auth.forgotPasswordLink')}
               </button>
             </div>
             <div className="relative">
               <input
                 type={showPwd ? 'text' : 'password'}
-                placeholder="••••••••••"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={form.password}
                 onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
                 className="w-full bg-[#161920] border-2 border-[#2A2D3A] rounded-2xl px-5 py-4 pr-14 text-white text-base placeholder:text-[#4B5060] focus:outline-none focus:border-primary transition-all duration-200"
@@ -167,11 +170,11 @@ export default function LoginPage() {
             {loading ? (
               <span className="flex items-center gap-2">
                 <span className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                Connexion...
+                {t('auth.loggingIn')}
               </span>
             ) : (
               <>
-                Se connecter
+                {t('auth.loginButton')}
                 <ChevronRight size={18} strokeWidth={3} />
               </>
             )}
@@ -181,7 +184,7 @@ export default function LoginPage() {
         {/* Divider */}
         <div className="flex items-center gap-4 my-6">
           <div className="flex-1 h-px bg-[#2A2D3A]" />
-          <span className="text-[#4B5060] text-sm font-medium">ou</span>
+          <span className="text-[#4B5060] text-sm font-medium">{t('auth.or')}</span>
           <div className="flex-1 h-px bg-[#2A2D3A]" />
         </div>
 
@@ -193,7 +196,7 @@ export default function LoginPage() {
           className="w-full bg-[#161920] border-2 border-[#2A2D3A] text-white font-bold py-[15px] rounded-2xl flex items-center justify-center gap-2.5 hover:border-primary/40 active:scale-[0.98] transition-all duration-150 disabled:opacity-40"
         >
           <ShieldCheck size={18} className="text-primary" />
-          Connexion par code OTP
+          {t('auth.otpLogin')}
         </button>
 
         {/* Demo Login */}
@@ -203,15 +206,13 @@ export default function LoginPage() {
           className="w-full bg-transparent border-2 border-primary/40 text-primary font-bold py-[15px] rounded-2xl flex items-center justify-center gap-2 hover:bg-primary/8 active:scale-[0.98] transition-all duration-150 disabled:opacity-60"
         >
           <span className="text-lg">🇨🇲</span>
-          Connexion démo
+          {t('auth.demoLogin')}
         </button>
 
         {/* Register link */}
         <p className="text-center text-text-sub mt-7 text-sm">
-          Pas encore de compte?{' '}
-          <Link to="/register" className="text-primary font-bold hover:underline">
-            Créer un compte
-          </Link>
+          <span className="text-[#6B7280]">{t('auth.noAccount')}</span>
+          <Link to="/register" className="text-primary font-bold">{t('auth.registerButton')}</Link>
         </p>
       </div>
     </div>

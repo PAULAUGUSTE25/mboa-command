@@ -1,20 +1,23 @@
 import { Home, Search, ShoppingBag, User, UtensilsCrossed } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../context/CartContext';
 
-const navItems = [
-  { icon: Home,            label: 'Accueil',  path: '/home' },
-  { icon: Search,          label: 'Explorer', path: '/explore' },
-  { icon: UtensilsCrossed, label: 'Plats',    path: '/explore?tab=dishes' },
-  { icon: ShoppingBag,     label: 'Panier',   path: '/cart' },
-  { icon: User,            label: 'Profil',   path: '/profile' },
+const getNavItems = (t: any) => [
+  { icon: Home,            label: t('common.home'),    path: '/home' },
+  { icon: Search,          label: t('common.explore'), path: '/explore' },
+  { icon: UtensilsCrossed, label: t('common.dishes'),  path: '/explore?tab=dishes' },
+  { icon: ShoppingBag,     label: t('common.cart'),    path: '/cart' },
+  { icon: User,            label: t('common.profile'), path: '/profile' },
 ];
 
 export default function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { itemCount } = useCart();
+  const navItems = getNavItems(t);
 
   const hiddenRoutes = ['/', '/login', '/register', '/onboarding', '/otp'];
   const hiddenPrefixes = ['/cart', '/tracking'];
@@ -22,11 +25,11 @@ export default function BottomNav() {
   if (hiddenPrefixes.some(p => location.pathname.startsWith(p))) return null;
 
   return (
-    <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] z-50">
+    <div className="fixed bottom-0 left-0 right-0 z-50">
       <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B0C10] to-transparent pointer-events-none" />
 
-      <div className="relative px-4 pb-5 pt-2">
-        <div className="bg-[#161920]/95 backdrop-blur-xl border border-[#2A2D3A] rounded-[28px] px-2 py-2 flex items-center justify-around shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+      <div className="relative px-4 pb-5 pt-2 max-w-7xl mx-auto">
+        <div className="bg-[#161920]/95 backdrop-blur-xl border border-[#2A2D3A] rounded-[28px] px-2 py-2 flex items-center justify-around shadow-[0_8px_32px_rgba(0,0,0,0.6)] md:max-w-2xl md:mx-auto">
           {navItems.map(({ icon: Icon, label, path }) => {
             const basePath = path.split('?')[0];
             const isActive = location.pathname === basePath;

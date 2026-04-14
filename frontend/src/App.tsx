@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import BottomNav from './components/BottomNav';
+import './i18n/config';
 
 import SplashPage from './pages/SplashPage';
 import OnboardingPage from './pages/OnboardingPage';
@@ -22,7 +23,7 @@ function AppLayout() {
   const showNav = !['/login', '/register', '/onboarding', '/otp', '/'].includes(path) && !path.startsWith('/tracking');
 
   return (
-    <div className="max-w-[430px] mx-auto min-h-screen bg-dark relative overflow-hidden md:shadow-[0_0_80px_rgba(0,0,0,0.9)] md:border-x md:border-white/5">
+    <div className="w-full min-h-screen bg-dark relative overflow-hidden">
       <Routes>
         <Route path="/" element={<SplashPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />

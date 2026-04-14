@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, ArrowLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 import { authAPI } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,6 +14,7 @@ const LABEL_CLS = "text-white/80 text-sm font-semibold tracking-wide uppercase";
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { t } = useTranslation();
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', city: 'Yaoundé' });
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,17 +23,17 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.password) { toast.error('Remplissez les champs obligatoires'); return; }
-    if (form.password.length < 6) { toast.error('Minimum 6 caractères pour le mot de passe'); return; }
+    if (!form.name || !form.email || !form.password) { toast.error(t('auth.fillAllFields')); return; }
+    if (form.password.length < 6) { toast.error(t('auth.passwordMinLength')); return; }
     setLoading(true);
     try {
       const res = await authAPI.register(form);
       login(res.data.token, res.data.user);
-      toast.success(`Bienvenue sur Mboa Command, ${res.data.user.name}!`);
+      toast.success(t('auth.registerSuccess'));
       navigate('/home');
     } catch (err: unknown) {
       const error = err as { response?: { data?: { error?: string } } };
-      toast.error(error.response?.data?.error || "Erreur lors de l'inscription");
+      toast.error(error.response?.data?.error || t('auth.registerError'));
     } finally {
       setLoading(false);
     }
@@ -75,10 +77,10 @@ export default function RegisterPage() {
 
         <div className="mb-7">
           <h1 className="text-white text-[28px] font-extrabold leading-tight tracking-tight">
-            Créer un compte
+            {t('auth.registerTitle')}
           </h1>
           <p className="text-text-sub mt-1.5 text-base">
-            Rejoignez la communauté Mboa Command
+            {t('auth.registerSubtitle')}
           </p>
         </div>
 
@@ -86,10 +88,10 @@ export default function RegisterPage() {
 
           {/* Name */}
           <div className="space-y-2">
-            <label className={LABEL_CLS}>Nom complet <span className="text-primary">*</span></label>
+            <label className={LABEL_CLS}>{t('auth.name')} <span className="text-primary">*</span></label>
             <input
               type="text"
-              placeholder="Jean Paul Kamga"
+              placeholder={t('auth.namePlaceholder')}
               value={form.name}
               onChange={e => set('name', e.target.value)}
               className={INPUT_CLS}
@@ -99,10 +101,10 @@ export default function RegisterPage() {
 
           {/* Email */}
           <div className="space-y-2">
-            <label className={LABEL_CLS}>Email <span className="text-primary">*</span></label>
+            <label className={LABEL_CLS}>{t('auth.emailLabel')} <span className="text-primary">*</span></label>
             <input
               type="email"
-              placeholder="votre@email.com"
+              placeholder={t('auth.emailPlaceholder')}
               value={form.email}
               onChange={e => set('email', e.target.value)}
               className={INPUT_CLS}
@@ -112,10 +114,10 @@ export default function RegisterPage() {
 
           {/* Phone */}
           <div className="space-y-2">
-            <label className={LABEL_CLS}>Téléphone</label>
+            <label className={LABEL_CLS}>{t('auth.phone')}</label>
             <input
               type="tel"
-              placeholder="+237 6XX XXX XXX"
+              placeholder={t('auth.phonePlaceholder')}
               value={form.phone}
               onChange={e => set('phone', e.target.value)}
               className={INPUT_CLS}
@@ -125,11 +127,11 @@ export default function RegisterPage() {
 
           {/* Password */}
           <div className="space-y-2">
-            <label className={LABEL_CLS}>Mot de passe <span className="text-primary">*</span></label>
+            <label className={LABEL_CLS}>{t('auth.passwordLabel')} <span className="text-primary">*</span></label>
             <div className="relative">
               <input
                 type={showPwd ? 'text' : 'password'}
-                placeholder="Min. 6 caractères"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={form.password}
                 onChange={e => set('password', e.target.value)}
                 className={INPUT_CLS + ' pr-14'}
@@ -147,7 +149,7 @@ export default function RegisterPage() {
 
           {/* City */}
           <div className="space-y-2">
-            <label className={LABEL_CLS}>Ville</label>
+            <label className={LABEL_CLS}>{t('auth.cityLabel')}</label>
             <div className="relative">
               <select
                 value={form.city}
@@ -169,11 +171,11 @@ export default function RegisterPage() {
             {loading ? (
               <span className="flex items-center gap-2">
                 <span className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                Création du compte...
+                {t('auth.registering')}
               </span>
             ) : (
               <>
-                Créer mon compte
+                {t('auth.registerButton')}
                 <ChevronRight size={18} strokeWidth={3} />
               </>
             )}
@@ -181,9 +183,9 @@ export default function RegisterPage() {
         </form>
 
         <p className="text-center text-text-sub mt-7 text-sm">
-          Déjà un compte?{' '}
+          {t('auth.hasAccount')}{' '}
           <Link to="/login" className="text-primary font-bold hover:underline">
-            Se connecter
+            {t('auth.loginButton')}
           </Link>
         </p>
       </div>

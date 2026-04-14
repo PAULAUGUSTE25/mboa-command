@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const BASE_URL = 'https://mboa-command-api.onrender.com/api';
+console.log('[MBOA API] Base URL:', BASE_URL);
 
 const API = axios.create({
   baseURL: BASE_URL,

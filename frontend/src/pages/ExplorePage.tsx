@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X, SlidersHorizontal, Star, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { restaurantsAPI, menuAPI } from '../lib/api';
 import RestaurantCard from '../components/RestaurantCard';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 interface Restaurant { id: string; name: string; image: string; cover_image?: string; category_name?: string; category_icon?: string; rating: number; rating_count: number; delivery_time: string; delivery_fee: number; city: string; is_open: number; promo_text?: string; description?: string; }
 interface MenuItem { id: string; name: string; price: number; image: string; restaurant_name: string; restaurant_id: string; rating: number; delivery_time: string; is_spicy?: number; }
 
-const SORT_OPTIONS = [
-  { key: 'rating', label: '⭐ Note' },
-  { key: 'delivery_time', label: '⚡ Rapidité' },
-  { key: 'delivery_fee', label: '💰 Frais livr.' },
+const getSortOptions = (t: any) => [
+  { key: 'rating', label: t('explore.sortByRating') },
+  { key: 'delivery_time', label: t('explore.sortBySpeed') },
+  { key: 'delivery_fee', label: t('explore.sortByFee') },
 ];
 
 export default function ExplorePage() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
+  const SORT_OPTIONS = getSortOptions(t);
   const [tab, setTab] = useState<'restaurants' | 'dishes'>('restaurants');
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [dishes, setDishes] = useState<MenuItem[]>([]);
@@ -80,8 +84,11 @@ export default function ExplorePage() {
       {/* ── Sticky Header ── */}
       <div className="sticky top-0 z-30 bg-[#0B0C10]/95 backdrop-blur-md border-b border-white/5 px-5 pt-12 pb-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h1 className="text-white font-extrabold text-xl tracking-tight">Explorer</h1>
-          <span className="text-[#6B7280] text-sm">{sortedRestaurants.length} résultats</span>
+          <div className="flex items-center gap-2">
+            <h1 className="text-white font-extrabold text-xl tracking-tight">{t('explore.title')}</h1>
+            <LanguageSwitcher />
+          </div>
+          <span className="text-[#6B7280] text-sm">{sortedRestaurants.length} {t('explore.results')}</span>
         </div>
 
         {/* Search Bar */}
@@ -93,7 +100,7 @@ export default function ExplorePage() {
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Ndolé, Soya, Poulet DG..."
+              placeholder={t('explore.searchPlaceholder')}
               className="w-full bg-[#161920] border-2 border-[#2A2D3A] rounded-2xl pl-11 pr-10 py-3.5 text-white placeholder:text-[#4B5060] focus:outline-none focus:border-primary transition-all text-sm"
             />
             {query && (
@@ -129,13 +136,13 @@ export default function ExplorePage() {
             className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${
               tab === 'restaurants' ? 'bg-primary text-black shadow-[0_2px_8px_rgba(168,255,62,0.3)]' : 'text-[#6B7280]'
             }`}>
-            Restaurants ({sortedRestaurants.length})
+            {t('explore.restaurants')} ({sortedRestaurants.length})
           </button>
           <button onClick={() => setTab('dishes')}
             className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${
               tab === 'dishes' ? 'bg-primary text-black shadow-[0_2px_8px_rgba(168,255,62,0.3)]' : 'text-[#6B7280]'
             }`}>
-            Plats ({dishes.length})
+            {t('explore.dishes')} ({dishes.length})
           </button>
         </div>
       </div>
@@ -152,8 +159,8 @@ export default function ExplorePage() {
             {sortedRestaurants.length === 0 ? (
               <div className="text-center py-20 flex flex-col items-center gap-3">
                 <div className="w-16 h-16 bg-[#161920] rounded-full flex items-center justify-center text-3xl border border-[#2A2D3A]">🔍</div>
-                <p className="text-white font-bold">Aucun restaurant trouvé</p>
-                <p className="text-[#6B7280] text-sm">Essayez un autre mot-clé</p>
+                <p className="text-white font-bold">{t('explore.noRestaurants')}</p>
+                <p className="text-[#6B7280] text-sm">{t('explore.tryAnother')}</p>
               </div>
             ) : sortedRestaurants.map(r => <RestaurantCard key={r.id} restaurant={r} />)}
           </div>
@@ -162,8 +169,8 @@ export default function ExplorePage() {
             {dishes.length === 0 ? (
               <div className="col-span-2 text-center py-20 flex flex-col items-center gap-3">
                 <div className="w-16 h-16 bg-[#161920] rounded-full flex items-center justify-center text-3xl border border-[#2A2D3A]">🍽️</div>
-                <p className="text-white font-bold">Aucun plat trouvé</p>
-                <p className="text-[#6B7280] text-sm">Essayez un autre mot-clé</p>
+                <p className="text-white font-bold">{t('explore.noDishes')}</p>
+                <p className="text-[#6B7280] text-sm">{t('explore.tryAnother')}</p>
               </div>
             ) : dishes.map(dish => (
               <div key={dish.id} onClick={() => navigate(`/restaurant/${dish.restaurant_id}`)}

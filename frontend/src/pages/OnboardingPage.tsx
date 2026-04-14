@@ -1,29 +1,31 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ShoppingBag, Bike, CreditCard } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
-const slides = [
+const getSlides = (t: any) => [
   {
     image: '/images/poulet-dg.jpg',
-    tag: '�🇲 Cuisine Camerounaise',
-    title: 'La vraie cuisine\ncamerounaise',
-    subtitle: 'Ndolé, Eru, Poulet DG, Soya… Les saveurs authentiques de chez nous.',
+    tag: t('onboarding.slide1.tag'),
+    title: t('onboarding.slide1.title'),
+    subtitle: t('onboarding.slide1.subtitle'),
     accent: '#A8FF3E',
     Icon: ShoppingBag,
   },
   {
-    image: '/images/ndole-crevettes.jpg',
-    tag: '⚡ Livraison Rapide',
-    title: 'Livré chez vous\nen 20–45 min',
-    subtitle: 'Yaoundé, Douala, Bafoussam… Votre repas arrive frais et chaud à votre porte.',
+    image: '/images/delivery.jpg',
+    tag: t('onboarding.slide2.tag'),
+    title: t('onboarding.slide2.title'),
+    subtitle: t('onboarding.slide2.subtitle'),
     accent: '#A8FF3E',
     Icon: Bike,
   },
   {
-    image: '/images/achu-taro.jpg',
-    tag: '💸 Paiement Facile',
-    title: 'MTN, Orange Money\nou Cash',
-    subtitle: 'Payez comme vous voulez — Mobile Money, Orange Money ou paiement à la livraison.',
+    image: '/images/payment\'s background.png',
+    tag: t('onboarding.slide3.tag'),
+    title: t('onboarding.slide3.title'),
+    subtitle: t('onboarding.slide3.subtitle'),
     accent: '#A8FF3E',
     Icon: CreditCard,
   },
@@ -32,6 +34,9 @@ const slides = [
 export default function OnboardingPage() {
   const [current, setCurrent] = useState(0);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  
+  const slides = getSlides(t);
 
   const handleNext = () => {
     if (current < slides.length - 1) setCurrent(c => c + 1);
@@ -57,8 +62,8 @@ export default function OnboardingPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0B0C10]/60 to-transparent h-40" />
       </div>
 
-      {/* Logo + Skip */}
-      <div className="relative z-10 flex items-center justify-between px-6 pt-12">
+      {/* Logo + Language + Skip */}
+      <div className="relative z-10 flex items-center justify-between px-6 pt-12 gap-3">
         <div className="bg-black/50 backdrop-blur-md rounded-2xl p-1.5 border border-white/10 shadow-lg">
           <img
             src="/images/app logo.png"
@@ -66,10 +71,13 @@ export default function OnboardingPage() {
             className="w-10 h-10 rounded-xl object-cover"
           />
         </div>
-        <button onClick={() => navigate('/login')}
-          className="text-white/70 text-sm font-bold hover:text-white transition-colors bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/15">
-          Passer →
-        </button>
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <button onClick={() => navigate('/login')}
+            className="text-white/70 text-sm font-bold hover:text-white transition-colors bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/15">
+            {t('onboarding.skip')} →
+          </button>
+        </div>
       </div>
 
       {/* Spacer */}
@@ -83,12 +91,12 @@ export default function OnboardingPage() {
         </div>
 
         {/* Title */}
-        <h1 className="text-white text-4xl font-black leading-tight mb-3 whitespace-pre-line drop-shadow-lg">
+        <h1 className="text-white text-[32px] font-black leading-[1.1] mb-3 whitespace-pre-line drop-shadow-lg">
           {slide.title}
         </h1>
 
         {/* Subtitle */}
-        <p className="text-white/75 text-base leading-relaxed mb-8">{slide.subtitle}</p>
+        <p className="text-white/75 text-sm leading-relaxed mb-8">{slide.subtitle}</p>
 
         {/* Dots */}
         <div className="flex gap-2 mb-6">
@@ -108,13 +116,13 @@ export default function OnboardingPage() {
         >
           {current < slides.length - 1 ? (
             <>
-              Suivant
+              {t('onboarding.next')}
               <ChevronRight size={20} />
             </>
           ) : (
             <>
               <SlideIcon size={20} />
-              Commencer à commander
+              {t('onboarding.getStarted')}
             </>
           )}
         </button>
@@ -122,9 +130,9 @@ export default function OnboardingPage() {
         {/* Login link */}
         {current === slides.length - 1 && (
           <p className="text-center text-white/50 text-sm mt-4">
-            Déjà un compte?{' '}
+            {t('onboarding.hasAccount')}{' '}
             <button onClick={() => navigate('/login')} className="text-primary font-semibold">
-              Se connecter
+              {t('onboarding.signIn')}
             </button>
           </p>
         )}

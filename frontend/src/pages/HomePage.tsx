@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, MapPin, ChevronDown, Search, Star, Clock, ArrowRight, Flame, Zap, Utensils, CheckCircle2, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { restaurantsAPI, menuAPI, categoriesAPI } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import RestaurantCard from '../components/RestaurantCard';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import LocationPermission from '../components/LocationPermission';
 import { getCategoryIcon } from '../lib/icons';
 import { staggerContainer, fadeSlideUp, scalePop } from '../components/PageTransition';
 
@@ -17,6 +20,7 @@ interface MenuItem { id: string; name: string; price: number; image: string; res
 export default function HomePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [city, setCity] = useState(user?.city || 'Yaoundé');
   const [showCityPicker, setShowCityPicker] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -56,7 +60,7 @@ export default function HomePage() {
 
       {/* ── Sticky Header ── */}
       <div className="sticky top-0 z-40 bg-[#0B0C10]/95 backdrop-blur-md border-b border-white/5">
-        <div className="px-5 pt-12 pb-3">
+        <div className="px-5 pt-12 pb-3 max-w-7xl mx-auto">
 
           {/* Top row */}
           <div className="flex items-center justify-between mb-3">
@@ -68,7 +72,7 @@ export default function HomePage() {
                 className="w-10 h-10 rounded-xl object-cover flex-shrink-0"
               />
               <div>
-                <p className="text-[#6B7280] text-xs font-medium">Bonjour, {firstName}</p>
+                <p className="text-[#6B7280] text-xs font-medium">{t('home.greeting')}, {firstName}</p>
                 <button
                   onClick={() => setShowCityPicker(s => !s)}
                   className="flex items-center gap-1.5 mt-0.5"
@@ -79,10 +83,13 @@ export default function HomePage() {
                 </button>
               </div>
             </div>
-            <button className="relative w-11 h-11 bg-[#161920] rounded-2xl flex items-center justify-center border border-[#2A2D3A]">
-              <Bell size={19} className="text-[#9CA3AF]" />
-              <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-primary rounded-full border-2 border-[#0B0C10] pulse-glow" />
-            </button>
+            <div className="flex items-center gap-2">
+              <LanguageSwitcher />
+              <button className="relative w-11 h-11 bg-[#161920] rounded-2xl flex items-center justify-center border border-[#2A2D3A]">
+                <Bell size={19} className="text-[#9CA3AF]" />
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-primary rounded-full border-2 border-[#0B0C10] pulse-glow" />
+              </button>
+            </div>
           </div>
 
           {/* City Picker */}
@@ -105,14 +112,14 @@ export default function HomePage() {
             className="w-full bg-[#161920] border border-[#2A2D3A] rounded-2xl flex items-center gap-3 px-4 py-3.5 hover:border-primary/40 transition-colors"
           >
             <Search size={17} className="text-[#4B5060]" />
-            <span className="text-[#4B5060] text-sm">Plat, restaurant, cuisine...</span>
-            <span className="ml-auto bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-lg">Rechercher</span>
+            <span className="text-[#4B5060] text-sm">{t('home.searchPlaceholder')}</span>
+            <span className="ml-auto bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-lg">{t('common.search')}</span>
           </button>
         </div>
       </div>
 
       <motion.div
-        className="px-5 pt-5 space-y-7"
+        className="px-5 pt-5 space-y-7 max-w-7xl mx-auto"
         variants={staggerContainer}
         initial="hidden"
         animate="show"
@@ -128,7 +135,7 @@ export default function HomePage() {
             transition={{ type: 'spring', stiffness: 320, damping: 26 }}
             style={{ height: 160 }}
           >
-            <img src="/images/poulet-dg.jpg" alt="Promo" className="w-full h-full object-cover" />
+            <img src="/images/commande .jpg" alt="Promo" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
             <div className="absolute inset-0 p-5 flex flex-col justify-center">
               <div className="flex items-center gap-1.5 mb-2">
@@ -138,15 +145,15 @@ export default function HomePage() {
                   transition={{ delay: 0.3 }}
                   className="bg-primary text-black text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wide flex items-center gap-1"
                 >
-                  <Sparkles size={10} /> Offre limitée
+                  <Sparkles size={10} /> {t('home.promoLabel')}
                 </motion.span>
               </div>
-              <h2 className="text-white font-extrabold text-[22px] leading-tight">
-                50% sur votre<br />1ère commande
+              <h2 className="text-white font-extrabold text-[22px] leading-tight whitespace-pre-line">
+                {t('home.promoTitle')}
               </h2>
-              <p className="text-white/60 text-xs mt-1 mb-3">Code: <span className="text-primary font-bold">MBOAPREMIER</span></p>
+              <p className="text-white/60 text-xs mt-1 mb-3">{t('home.promoCode')} <span className="text-primary font-bold">{t('home.promoCodeValue')}</span></p>
               <div className="flex items-center gap-1 text-primary text-sm font-bold">
-                Commander maintenant <ArrowRight size={14} />
+                {t('home.promoCta')} <ArrowRight size={14} />
               </div>
             </div>
           </motion.div>
@@ -155,9 +162,9 @@ export default function HomePage() {
         {/* ── Quick Stats Row ── */}
         <motion.div variants={fadeSlideUp} className="grid grid-cols-3 gap-3">
           {[
-            { Icon: Zap,   value: '30 min',               label: 'Livraison rapide', color: 'text-primary' },
-            { Icon: Star,  value: '4.8',                  label: 'Note moyenne',     color: 'text-primary', fill: '#A8FF3E' },
-            { Icon: Flame, value: `${restaurants.length}+`, label: 'Restaurants',   color: 'text-primary' },
+            { Icon: Zap,   value: '30 min',               label: t('home.quickDelivery'), color: 'text-primary' },
+            { Icon: Star,  value: '4.8',                  label: t('home.avgRating'),     color: 'text-primary', fill: '#A8FF3E' },
+            { Icon: CheckCircle2, value: `${restaurants.length}+`, label: t('home.activeRestaurants'), color: 'text-primary' },
           ].map((s, i) => (
             <motion.div
               key={s.label}
@@ -176,21 +183,25 @@ export default function HomePage() {
         {/* ── Categories ── */}
         <motion.div variants={fadeSlideUp}>
           <div className="flex items-center justify-between mb-3.5">
-            <h2 className="text-white font-extrabold text-[17px]">Catégories</h2>
+            <h2 className="text-white font-extrabold text-lg">{t('home.categories')}</h2>
           </div>
           <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
             {/* All button */}
             <motion.button
               whileTap={{ scale: 0.92 }}
               onClick={() => setActiveCategory('all')}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-sm font-bold transition-all duration-200 ${
-                activeCategory === 'all'
-                  ? 'bg-primary text-black shadow-[0_2px_12px_rgba(168,255,62,0.4)]'
-                  : 'bg-[#161920] text-[#9CA3AF] border border-[#2A2D3A]'
+              className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all ${
+                activeCategory === 'all' ? 'bg-primary/15 border-2 border-primary' : 'bg-[#161920] border-2 border-[#2A2D3A]'
               }`}
             >
-              <Utensils size={14} />
-              Tout
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                activeCategory === 'all' ? 'bg-primary/20' : 'bg-white/5'
+              }`}>
+                <Utensils size={20} className={activeCategory === 'all' ? 'text-primary' : 'text-[#9CA3AF]'} />
+              </div>
+              <span className={`text-xs font-bold ${
+                activeCategory === 'all' ? 'text-primary' : 'text-white'
+              }`}>{t('home.allCategories')}</span>
             </motion.button>
 
             {categories.map(cat => {
@@ -201,14 +212,18 @@ export default function HomePage() {
                   key={cat.id}
                   whileTap={{ scale: 0.92 }}
                   onClick={() => setActiveCategory(cat.slug)}
-                  className={`flex-shrink-0 flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-sm font-bold transition-all duration-200 ${
-                    isActive
-                      ? 'bg-primary text-black shadow-[0_2px_12px_rgba(168,255,62,0.4)]'
-                      : 'bg-[#161920] text-[#9CA3AF] border border-[#2A2D3A]'
+                  className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all ${
+                    isActive ? 'bg-primary/15 border-2 border-primary' : 'bg-[#161920] border-2 border-[#2A2D3A]'
                   }`}
                 >
-                  <CatIcon size={14} />
-                  <span>{cat.name}</span>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                    isActive ? 'bg-primary/20' : 'bg-white/5'
+                  }`}>
+                    <CatIcon size={20} />
+                  </div>
+                  <span className={`text-xs font-bold ${
+                    isActive ? 'text-primary' : 'text-white'
+                  }`}>{cat.name}</span>
                 </motion.button>
               );
             })}
@@ -220,12 +235,12 @@ export default function HomePage() {
           <motion.div variants={fadeSlideUp}>
             <div className="flex items-center justify-between mb-3.5">
               <div>
-                <h2 className="text-white font-extrabold text-[17px]">En Vedette</h2>
-                <p className="text-[#6B7280] text-xs mt-0.5">Les meilleures adresses</p>
+                <h2 className="text-white font-extrabold text-[17px]">{t('home.featuredRestaurants')}</h2>
+                <p className="text-[#6B7280] text-xs mt-0.5">{t('home.featuredRestaurantsSubtitle')}</p>
               </div>
               <motion.button whileTap={{ scale: 0.94 }} onClick={() => navigate('/explore')}
                 className="flex items-center gap-1 text-primary text-sm font-bold">
-                Voir tout <ArrowRight size={14} />
+                {t('home.seeAll')} <ArrowRight size={14} />
               </motion.button>
             </div>
             <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-1">
@@ -248,12 +263,12 @@ export default function HomePage() {
           <motion.div variants={fadeSlideUp}>
             <div className="flex items-center justify-between mb-3.5">
               <div>
-                <h2 className="text-white font-extrabold text-[17px]">Plats Populaires</h2>
-                <p className="text-[#6B7280] text-xs mt-0.5">Les favoris du moment</p>
+                <h2 className="text-white font-extrabold text-[17px]">{t('home.popularDishes')}</h2>
+                <p className="text-[#6B7280] text-xs mt-0.5">{t('home.popularDishesSubtitle')}</p>
               </div>
               <motion.button whileTap={{ scale: 0.94 }} onClick={() => navigate('/explore?tab=dishes')}
                 className="flex items-center gap-1 text-primary text-sm font-bold">
-                Voir tout <ArrowRight size={14} />
+                {t('home.seeAll')} <ArrowRight size={14} />
               </motion.button>
             </div>
             <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-1">
@@ -302,8 +317,8 @@ export default function HomePage() {
         <motion.div variants={fadeSlideUp}>
           <div className="flex items-center justify-between mb-3.5">
             <div>
-              <h2 className="text-white font-extrabold text-[17px]">Tous les restaurants</h2>
-              <p className="text-[#6B7280] text-xs mt-0.5">{filteredRestaurants.length} disponibles à {city}</p>
+              <h2 className="text-white font-extrabold text-[17px]">{t('home.allRestaurants')}</h2>
+              <p className="text-[#6B7280] text-xs mt-0.5">{filteredRestaurants.length} {t('home.availableIn')} {city}</p>
             </div>
           </div>
 
@@ -328,12 +343,12 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-[#161920] rounded-full flex items-center justify-center border border-[#2A2D3A]">
                 <Utensils size={28} className="text-[#2A2D3A]" />
               </div>
-              <p className="text-white font-bold">Aucun restaurant disponible</p>
-              <p className="text-[#6B7280] text-sm">Démarrez le backend pour voir les données</p>
+              <p className="text-white font-bold">{t('home.noRestaurants')}</p>
+              <p className="text-[#6B7280] text-sm">{t('home.startBackend')}</p>
             </motion.div>
           ) : (
             <motion.div
-              className="space-y-3"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
               variants={staggerContainer}
               initial="hidden"
               animate="show"

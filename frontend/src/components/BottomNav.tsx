@@ -20,7 +20,7 @@ export default function BottomNav() {
   const navItems = getNavItems(t);
 
   const hiddenRoutes = ['/', '/login', '/register', '/onboarding', '/otp'];
-  const hiddenPrefixes = ['/cart', '/tracking'];
+  const hiddenPrefixes = ['/tracking'];
   if (hiddenRoutes.includes(location.pathname)) return null;
   if (hiddenPrefixes.some(p => location.pathname.startsWith(p))) return null;
 

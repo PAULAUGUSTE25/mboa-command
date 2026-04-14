@@ -64,7 +64,7 @@ export default function RegisterPage() {
         <div className="absolute top-10 left-0 right-0 flex justify-center">
           <div className="bg-black/50 backdrop-blur-md rounded-2xl p-1.5 border border-white/10 shadow-xl">
             <img
-              src="/images/app logo.png"
+              src="/images/app-logo.png"
               alt="Mboa Command"
               className="w-14 h-14 rounded-xl object-cover"
             />

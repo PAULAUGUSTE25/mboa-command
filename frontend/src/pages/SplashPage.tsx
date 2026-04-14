@@ -48,7 +48,7 @@ export default function SplashPage() {
           style={{ animation: 'popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards' }}
         >
           <img
-            src="/images/app logo.png"
+            src="/images/app-logo.png"
             alt="Mboa Command"
             className="w-52 h-52 rounded-3xl object-cover"
           />

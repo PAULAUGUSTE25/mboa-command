@@ -164,7 +164,7 @@ export default function CartPage() {
               const PIcon = PAYMENT_ICONS[pm.id] ?? Smartphone;
               const isActive = payment === pm.id;
               const hasLogo = pm.id === 'mtn_momo' || pm.id === 'orange_money';
-              const logoSrc = pm.id === 'mtn_momo' ? '/images/mobile money logo.jpg' : pm.id === 'orange_money' ? '/images/orangemoney.jpg' : '';
+              const logoSrc = pm.id === 'mtn_momo' ? '/images/mobile-money-logo.jpg' : pm.id === 'orange_money' ? '/images/orangemoney.jpg' : '';
               
               return (
                 <motion.button key={pm.id} onClick={() => setPayment(pm.id)}

@@ -66,7 +66,7 @@ export default function OnboardingPage() {
       <div className="relative z-10 flex items-center justify-between px-6 pt-12 gap-3">
         <div className="bg-black/50 backdrop-blur-md rounded-2xl p-1.5 border border-white/10 shadow-lg">
           <img
-            src="/images/app logo.png"
+            src="/images/app-logo.png"
             alt="Mboa Command"
             className="w-10 h-10 rounded-xl object-cover"
           />

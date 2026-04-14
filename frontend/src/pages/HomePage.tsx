@@ -67,7 +67,7 @@ export default function HomePage() {
             <div className="flex items-center gap-2.5">
               {/* App logo small */}
               <img
-                src="/images/app logo.png"
+                src="/images/app-logo.png"
                 alt="Mboa Command"
                 className="w-10 h-10 rounded-xl object-cover flex-shrink-0"
               />
@@ -135,7 +135,7 @@ export default function HomePage() {
             transition={{ type: 'spring', stiffness: 320, damping: 26 }}
             style={{ height: 160 }}
           >
-            <img src="/images/commande .jpg" alt="Promo" className="w-full h-full object-cover" />
+            <img src="/images/commande.jpg" alt="Promo" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
             <div className="absolute inset-0 p-5 flex flex-col justify-center">
               <div className="flex items-center gap-1.5 mb-2">

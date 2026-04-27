@@ -227,7 +227,7 @@ async function seedDatabase() {
   for (const r of restaurantData) {
     await run(`
       INSERT INTO restaurants (id, name, description, image, cover_image, category_id, address, city, phone, rating, rating_count, delivery_time, delivery_fee, min_order, is_open, is_featured, promo_text)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
     `, [r.id, r.name, r.description, r.image, r.cover_image, r.category_id, r.address, r.city, r.phone, r.rating, r.rating_count, r.delivery_time, r.delivery_fee, r.min_order, r.is_open, r.is_featured, r.promo_text]);
   }
 

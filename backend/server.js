@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const db = require('./database/db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -45,7 +46,19 @@ app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
   res.json([]);
 });
 
-app.listen(PORT, () => {
-  console.log(`\n😋  Mboa Command API running on http://localhost:${PORT}`);
-  console.log(`📡  Health check: http://localhost:${PORT}/api/health\n`);
+async function start() {
+  // Initialize database (SQLite or PostgreSQL)
+  if (db.initializeDatabase) {
+    await db.initializeDatabase();
+  }
+
+  app.listen(PORT, () => {
+    console.log(`\n😋  Mboa Command API running on http://localhost:${PORT}`);
+    console.log(`📡  Health check: http://localhost:${PORT}/api/health\n`);
+  });
+}
+
+start().catch(err => {
+  console.error('❌ Failed to start server:', err.message);
+  process.exit(1);
 });

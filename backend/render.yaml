@@ -16,7 +16,7 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: DATABASE_URL
-        sync: false
+        value: postgresql://postgres.hpffonuyhyoirzgmsigb:Auguste%40ictu2021@aws-0-eu-west-1.pooler.supabase.com:5432/postgres
       - key: EMAIL_USER
         sync: false
       - key: EMAIL_PASS

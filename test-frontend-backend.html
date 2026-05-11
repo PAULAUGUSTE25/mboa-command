@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test MBOA Command - Frontend ↔ Backend</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .loading { background: #fff3cd; border-color: #ffeaa7; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test MBOA Command - Intégration Complète</h1>
+    
+    <div id="test-health" class="test loading">
+        <h3>1️⃣ Backend Health Check</h3>
+        <p>Test de connexion au backend...</p>
+    </div>
+
+    <div id="test-categories" class="test loading">
+        <h3>2️⃣ API Categories (Database)</h3>
+        <p>Test de récupération des catégories depuis PostgreSQL...</p>
+    </div>
+
+    <div id="test-restaurants" class="test loading">
+        <h3>3️⃣ API Restaurants</h3>
+        <p>Test de récupération des restaurants...</p>
+    </div>
+
+    <button onclick="runTests()">🔄 Relancer les tests</button>
+
+    <script>
+        const API_URL = 'https://mboa-command-api.onrender.com/api';
+
+        async function testHealth() {
+            const div = document.getElementById('test-health');
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                div.className = 'test success';
+                div.innerHTML = `
+                    <h3>✅ 1️⃣ Backend Health Check</h3>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Message:</strong> ${data.message}</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                div.className = 'test error';
+                div.innerHTML = `
+                    <h3>❌ 1️⃣ Backend Health Check</h3>
+                    <p><strong>Erreur:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        async function testCategories() {
+            const div = document.getElementById('test-categories');
+            try {
+                const response = await fetch(`${API_URL}/categories`);
+                const data = await response.json();
+                div.className = 'test success';
+                div.innerHTML = `
+                    <h3>✅ 2️⃣ API Categories (Database)</h3>
+                    <p><strong>Nombre de catégories:</strong> ${data.data.length}</p>
+                    <p><strong>Catégories:</strong> ${data.data.map(c => c.name).join(', ')}</p>
+                    <pre>${JSON.stringify(data.data.slice(0, 3), null, 2)}</pre>
+                `;
+            } catch (error) {
+                div.className = 'test error';
+                div.innerHTML = `
+                    <h3>❌ 2️⃣ API Categories</h3>
+                    <p><strong>Erreur:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        async function testRestaurants() {
+            const div = document.getElementById('test-restaurants');
+            try {
+                const response = await fetch(`${API_URL}/restaurants?limit=3`);
+                const data = await response.json();
+                div.className = 'test success';
+                div.innerHTML = `
+                    <h3>✅ 3️⃣ API Restaurants</h3>
+                    <p><strong>Nombre de restaurants:</strong> ${data.total}</p>
+                    <p><strong>Restaurants:</strong></p>
+                    <ul>
+                        ${data.data.map(r => `<li><strong>${r.name}</strong> - ${r.city} (${r.rating}⭐)</li>`).join('')}
+                    </ul>
+                    <pre>${JSON.stringify(data.data[0], null, 2)}</pre>
+                `;
+            } catch (error) {
+                div.className = 'test error';
+                div.innerHTML = `
+                    <h3>❌ 3️⃣ API Restaurants</h3>
+                    <p><strong>Erreur:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        async function runTests() {
+            await testHealth();
+            await testCategories();
+            await testRestaurants();
+        }
+
+        // Lancer les tests au chargement
+        runTests();
+    </script>
+</body>
+</html>

@@ -9,7 +9,7 @@
 ### **2026-05-12 (Monday) - Documentation & Final Polish**
 
 #### 12:05 PM - Commit `791c7c3`
-**Author:** HP Developer  
+**Author:** PAUL  
 **Type:** Documentation  
 **Message:** docs: add comprehensive CHANGELOG with all modifications and migration history
 
@@ -24,7 +24,7 @@
 ---
 
 #### 11:20 AM - Commit `8f86dc0`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Documentation  
 **Message:** docs: add comprehensive README with setup instructions and architecture
 
@@ -40,7 +40,7 @@
 ---
 
 #### 01:18 AM - Commit `876f310`
-**Author:** HP Developer  
+**Author:** PAUL  
 **Type:** Documentation  
 **Message:** docs: add integration tests and system status documentation
 
@@ -54,7 +54,7 @@
 ---
 
 #### 01:14 AM - Commit `5f3d4c7`
-**Author:** HP Developer  
+**Author:** PAUL  
 **Type:** Bug Fix  
 **Message:** fix: update frontend to use Render backend URL
 
@@ -73,7 +73,7 @@
 ### **2026-04-30 (Tuesday) - Deployment Configuration**
 
 #### 10:27 PM - Commit `a343ce9`
-**Author:** HP Developer  
+**Author:**  PAUL
 **Type:** Bug Fix  
 **Message:** fix: add DATABASE_URL to render.yaml for auto-deploy
 
@@ -91,7 +91,7 @@
 ### **2026-04-27 (Sunday) - PostgreSQL Migration**
 
 #### 06:27 PM - Commit `f2851b8`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** fix: correct restaurant INSERT placeholder count ($17 for promo_text)
 
@@ -149,7 +149,7 @@
 ### **2026-04-14 (Monday) - UI Fixes & Improvements**
 
 #### 12:43 PM - Commit `0bd7534`
-**Author:** HP Developer  
+**Author:** PAUL  
 **Type:** Bug Fix  
 **Message:** fix: Show BottomNav on all main pages including cart
 
@@ -165,7 +165,7 @@
 ---
 
 #### 12:16 PM - Commit `056c1f8`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** fix: Add missing favicon.svg
 
@@ -180,7 +180,7 @@
 ---
 
 #### 12:10 PM - Commit `84083eb`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** fix: Rename image files to remove spaces and special characters for production compatibility
 
@@ -197,7 +197,7 @@
 ---
 
 #### 11:50 AM - Commit `cfafaaf`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Feature  
 **Message:** feat: Complete bilingual support (FR/EN) + geolocation feature + responsive design
 
@@ -218,7 +218,7 @@
 ### **2026-04-11 (Friday) - Initial Setup & CORS Fixes**
 
 #### 10:08 AM - Commit `ef7daef`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** Fix: Hardcode Render backend URL to fix persistent API routing issue
 
@@ -233,7 +233,7 @@
 ---
 
 #### 05:13 AM - Commit `ca37868`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** Fix: BottomNav visibility on all pages + remove promo emoji
 
@@ -249,7 +249,7 @@
 ---
 
 #### 04:41 AM - Commit `7aa2733`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** Fix: Correct JWT_SECRET in auth middleware to match login secret
 
@@ -265,7 +265,7 @@
 ---
 
 #### 04:22 AM - Commit `fc2bceb`
-**Author:** HP Developer  
+**Author:**PAUL 
 **Type:** Bug Fix  
 **Message:** Fix: Allow all Vercel deployment URLs in CORS
 
@@ -280,7 +280,7 @@
 ---
 
 #### 04:08 AM - Commit `4d8d5ab`
-**Author:** HP Developer  
+**Author:**  PAUL  
 **Type:** Bug Fix  
 **Message:** Fix: Add Vercel URLs to CORS allowed origins
 
@@ -294,7 +294,7 @@
 ---
 
 #### 04:00 AM - Commit `fef1dfe`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Bug Fix  
 **Message:** Fix: Add backend files properly (remove submodule)
 
@@ -310,7 +310,7 @@
 ---
 
 #### 03:34 AM - Commit `a55a1a9`
-**Author:** HP Developer  
+**Author:** PAUL 
 **Type:** Initial Commit  
 **Message:** Initial commit - MBOA Command food delivery app
 

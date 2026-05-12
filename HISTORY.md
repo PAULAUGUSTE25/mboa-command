@@ -8,6 +8,21 @@
 
 ### **2026-05-12 (Monday) - Documentation & Final Polish**
 
+#### 12:22 PM - Commit `34db558`
+**Author:** PAUL  
+**Type:** Documentation  
+**Message:** docs: update author name from HP Developer to PAUL in HISTORY.md
+
+**Changes:**
+- ✅ Updated all author names in HISTORY.md from "HP Developer" to "PAUL"
+- ✅ Corrected attribution for all 18 commits
+- ✅ Maintained consistency across documentation
+
+**Files Modified:**
+- `HISTORY.md` (17 author name updates)
+
+---
+
 #### 12:05 PM - Commit `791c7c3`
 **Author:** PAUL  
 **Type:** Documentation  
